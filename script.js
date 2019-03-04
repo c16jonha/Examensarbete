@@ -11,3 +11,16 @@ var closed = false;
       x[index].style.display ="block";
     }
 }
+
+//for publishing articles
+function createArticle(){
+}
+/* For later
+function searchFunction(){
+  var articles, filter, i, txtValue, heading, contents;
+  input = document.getElementsById("searchBar");
+  filter = input.value.toUpperCase();
+  articles = document.getElementsByClassName("Article");
+  contents = document.getElementsByClassName("content");
+}
+*/

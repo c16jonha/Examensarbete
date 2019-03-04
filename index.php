@@ -8,14 +8,21 @@
 <body>
   <div id="header">
     <h1>Artefakt</h1>
-    <input type="text" placeholder="Search..">
+    <input type="text" id="searchBar" onkeydown="searchFunction()" placeholder="Search..">
   </div>
   <div id = "container">
-    <div class="Article">
         <?php
           include "Servers.php";
         ?>
-    </div>
+  </div>
+  <div id="adder">
+      Heading: <input type="text" name="Heading" id="headingInput" placeholder="Write your heading...">
+    <br>
+      Author: <input type="text" name="author" placeholder="">
+    <br>
+      bodytext: <textarea type ="textfield" name="bodytext" placeholder="Write your bodytext..."></textarea>
+    <br>
+    <button id="Publish" type="submit" onclick="createArticle()">Publish</button>
   </div>
   <div id = "footer">
   </div>
