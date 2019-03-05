@@ -11,10 +11,6 @@ var closed = false;
       x[index].style.display ="block";
     }
 }
-
-//for publishing articles
-function createArticle(){
-}
 /* For later
 function searchFunction(){
   var articles, filter, i, txtValue, heading, contents;
