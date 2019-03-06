@@ -8,7 +8,7 @@
 <body>
   <div id="header">
     <h1>Artefakt</h1>
-    <input type="text" id="searchBar" onkeydown="searchFunction()" placeholder="Search..">
+    <input type="text" id="searchBar" onkeyup="searchFilter()" placeholder="Search..">
   </div>
   <div id = "container">
         <?php

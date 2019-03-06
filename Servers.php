@@ -15,7 +15,8 @@
     $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
     $articles = $stmt->fetchAll();
-    //
+
+    //Loops out every row in the articles table as div
     $i = 0;
       foreach ($articles as $article) {
         echo "<div class='Article'>";
@@ -30,18 +31,23 @@
 
       //Inserts the content from the form into the database as an article
       if(isset($_POST['publish'])){
-        $heading = $_POST['headingInput'];
-        $author = $_POST['authorInput'];
-        $bodytext = $_POST['bodytextInput'];
-        $create = "INSERT INTO articles (heading, author, bodytext)
-        VALUES (:HEADING,:AUTHOR,:BODYTEXT)";
-        $stmt= $conn->prepare($create);
-        $stmt->bindParam(':HEADING', $heading);
-        $stmt->bindParam(':AUTHOR', $author);
-        $stmt->bindParam(':BODYTEXT', $bodytext);
-        $stmt->execute();
-        //Header that resets the parameters for POST
-        header("Location: index.php");
+        if(isset($_POST['headingInput']) && $_POST['authorInput'] && $_POST['bodytextInput'] != ""){
+          $heading = $_POST['headingInput'];
+          $author = $_POST['authorInput'];
+          $bodytext = $_POST['bodytextInput'];
+          $create = "INSERT INTO articles (heading, author, bodytext)
+          VALUES (:HEADING,:AUTHOR,:BODYTEXT)";
+          $stmt= $conn->prepare($create);
+          $stmt->bindParam(':HEADING', $heading);
+          $stmt->bindParam(':AUTHOR', $author);
+          $stmt->bindParam(':BODYTEXT', $bodytext);
+          $stmt->execute();
+          //Header that resets the parameters for POST
+          header("Location: index.php");
+        }
+        else{
+          header("Location: index.php");
+        }
       }
   }
   catch(PDOException $e){

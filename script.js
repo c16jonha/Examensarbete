@@ -11,12 +11,28 @@ var closed = false;
       x[index].style.display ="block";
     }
 }
-/* For later
-function searchFunction(){
-  var articles, filter, i, txtValue, heading, contents;
-  input = document.getElementsById("searchBar");
-  filter = input.value.toUpperCase();
-  articles = document.getElementsByClassName("Article");
-  contents = document.getElementsByClassName("content");
+
+//function for filtering out the irrelevant content
+function searchFilter(){
+  var input = document.getElementById("searchBar");
+  var filter = input.value.toLowerCase();
+  var nodes = document.getElementsByClassName('content');
+//removes the highlight if the searchbar is empty
+  if(filter == "") {
+    for (i = 0; i < nodes.length; i++) {
+      nodes[i].style = "background-color: #ffffff";
+      nodes[i].style.display = "none";
+    }
+  }
+  else{
+    for (i = 0; i < nodes.length; i++) {
+      if (nodes[i].innerText.toLowerCase().includes(filter)) {
+        nodes[i].style.display = "block";
+        nodes[i].style.backgroundColor = "yellow";
+      }
+      else {
+        nodes[i].style.display = "none";
+      }
+    }
+  }
 }
-*/
