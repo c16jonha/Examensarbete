@@ -8,7 +8,10 @@
 <body>
   <div id="header">
     <h1>Artefakt</h1>
-    <input type="text" id="searchBar" onkeyup="searchFilter()" placeholder="Search..">
+    <form method = "post">
+      <input type="text" id="searchBar" placeholder="Search.." value=""/>
+      <button type="submit" id="searchButton" onclick="searchFilter()"><img id="searchImg" src="search.png"></img></button>
+    </form>
   </div>
   <div id = "container">
         <?php

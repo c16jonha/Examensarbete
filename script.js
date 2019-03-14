@@ -1,5 +1,5 @@
 function ShowText(c, index){
-var closed = false;
+  var closed = false;
   var x = document.getElementsByClassName(c);
     for (var i = 0; i < x.length; i++) {
       if(x[index].style.display =="block"){
@@ -12,7 +12,7 @@ var closed = false;
     }
 }
 
-//function for filtering out the irrelevant content
+//function for filtering out the irrelevant content, not the final function for search
 function searchFilter(){
   var input = document.getElementById("searchBar");
   var filter = input.value.toLowerCase();
@@ -26,9 +26,9 @@ function searchFilter(){
   }
   else{
     for (i = 0; i < nodes.length; i++) {
-      if (nodes[i].innerText.toLowerCase().includes(filter)) {
-        nodes[i].style.display = "block";
-        nodes[i].style.backgroundColor = "yellow";
+      if(nodes[i].innerText.toLowerCase().includes(filter)) {
+          nodes[i].style = "background-color: yellow";
+          nodes[i].style.display = "block";
       }
       else {
         nodes[i].style.display = "none";

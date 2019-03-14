@@ -49,6 +49,14 @@
           header("Location: index.php");
         }
       }
+      //not finished
+      /*if(isset($_POST['searchButton'])){
+        if(isset($_POST['searchBar']) != ""){
+          $search = $_POST['searchBar'];
+          $select = "Select * from articles where (heading, author, bodytext)
+          VALUES (:HEADING,:AUTHOR,:BODYTEXT)";
+        }
+      }*/
   }
   catch(PDOException $e){
     echo "Connection failed: " . $e->getMessage();
