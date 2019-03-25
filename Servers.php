@@ -49,16 +49,35 @@
           header("Location: index.php");
         }
       }
-      //not finished
-      /*if(isset($_POST['searchButton'])){
-        if(isset($_POST['searchBar']) != ""){
-          $search = $_POST['searchBar'];
-          $select = "Select * from articles where (heading, author, bodytext)
-          VALUES (:HEADING,:AUTHOR,:BODYTEXT)";
-        }
-      }*/
+    //Search that queries the DB 
+    if(isset($_POST['search'])){
+      if(isset($_POST['searchBar']) != ""){
+        echo '<style type="text/css"> .Article{ display: none;}</style>';
+        $search = $_POST['searchBar'];
+        $query = "SELECT * FROM articles WHERE heading || author || bodytext Like '%".$search."%'";
+        $stmt= $conn->prepare($query);
+        $stmt->execute();
+        $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $i = 0;
+          foreach ($results as $result) {
+            echo "<div class='searchResult'>";
+            echo "<h2 onclick='ShowText(\"searchContent\",".$i.")'>".$result['heading']."</h2><hr>";
+            echo "<div class='searchContent'>";
+            echo "<p>".$result['author']."</p>";
+            echo "<p>".$result['bodytext']."</p>";
+            echo "<p>".$result['published']."</p><hr>";
+            echo "</div></div>";
+            $i++;
+          }
+      }
+      else{
+        echo '<style type="text/css"> .searchResult{ display: none;}</style>';
+        echo '<style type="text/css"> .Article{ display: Block;}</style>';
+        header("Location: index.php");
+      }
+    }
   }
   catch(PDOException $e){
     echo "Connection failed: " . $e->getMessage();
   }
-  ?>
+?>

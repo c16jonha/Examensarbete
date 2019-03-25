@@ -68,7 +68,17 @@ div{
 .Article{
   width: 600px;
 }
+.searchResult{
+  width: 600px;
+}
 .content{
+  text-align: justify;
+  overflow: auto;
+  display:none;
+  width: 590px;
+  font-size: 12px;
+}
+.searchContent{
   text-align: justify;
   overflow: auto;
   display:none;

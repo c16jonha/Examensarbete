@@ -9,8 +9,8 @@
   <div id="header">
     <h1>Artefakt</h1>
     <form method = "post">
-      <input type="text" id="searchBar" placeholder="Search.." value=""/>
-      <button type="submit" id="searchButton" onclick="searchFilter()"><img id="searchImg" src="search.png"></img></button>
+      <input type="text" id="searchBar" name="searchBar" placeholder="Search.." value=""/>
+      <button id="searchButton" type="submit" name="search"><img id="searchImg" src="search.png"></img></button>
     </form>
   </div>
   <div id = "container">
@@ -22,7 +22,7 @@
     <form method="post">
       Heading: <input type="text" name="headingInput" id="headingInput" placeholder="Write your heading...">
         <br>
-      Author: <input type="text" name="authorInput" placeholder="">
+      Author: <input type="text" name="authorInput" placeholder="Write your name...">
         <br>
       bodytext: <input type ="text" name="bodytextInput" placeholder="Write your bodytext...">
         <br>

@@ -11,7 +11,7 @@ function ShowText(c, index){
       x[index].style.display ="block";
     }
 }
-
+/*
 //function for filtering out the irrelevant content, not the final function for search
 function searchFilter(){
   var input = document.getElementById("searchBar");
@@ -36,3 +36,4 @@ function searchFilter(){
     }
   }
 }
+*/
