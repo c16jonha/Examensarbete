@@ -20,7 +20,7 @@
     $i = 0;
       foreach ($articles as $article) {
         echo "<div class='Article'>";
-        echo "<h2 onclick='ShowText(\"content\",".$i.")'>".$article['heading']."</h2><hr>";
+        echo "<h2 onclick='showText(\"content\",".$i.")'>".$article['heading']."</h2><hr>";
         echo "<div class='content'>";
         echo "<p>".$article['author']."</p>";
         echo "<p>".$article['bodytext']."</p>";
@@ -49,19 +49,21 @@
           header("Location: index.php");
         }
       }
-    //Search that queries the DB 
+    //Search that queries the DB
     if(isset($_POST['search'])){
       if(isset($_POST['searchBar']) != ""){
+        echo '<style type="text/css"> #noResult{ display: none;}</style>';
         echo '<style type="text/css"> .Article{ display: none;}</style>';
         $search = $_POST['searchBar'];
-        $query = "SELECT * FROM articles WHERE heading || author || bodytext Like '%".$search."%'";
+        $query = "SELECT * FROM articles WHERE heading LIKE '%".$search."%' OR author LIKE '%".$search."%' Or bodytext LIKE '%".$search."%' Or published LIKE '%".$search."%'";
         $stmt= $conn->prepare($query);
         $stmt->execute();
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        if($results != null){
         $i = 0;
           foreach ($results as $result) {
             echo "<div class='searchResult'>";
-            echo "<h2 onclick='ShowText(\"searchContent\",".$i.")'>".$result['heading']."</h2><hr>";
+            echo "<h2 onclick='showText(\"searchContent\",".$i.")'>".$result['heading']."</h2><hr>";
             echo "<div class='searchContent'>";
             echo "<p>".$result['author']."</p>";
             echo "<p>".$result['bodytext']."</p>";
@@ -69,8 +71,19 @@
             echo "</div></div>";
             $i++;
           }
+        }
+        else{
+          echo '<style type="text/css"> #noResult{ display: block;}</style>';
+          echo "<div id='noResult'>";
+          echo "<h2>No result was found</h2><hr>";
+          echo "<div>";
+          echo "<p>We could not find any matching results to your search</p>";
+          echo "<p>Please try again</p>";
+          echo "</div></div>";
+        }
       }
       else{
+        echo '<style type="text/css"> #noResult{ display: none;}</style>';
         echo '<style type="text/css"> .searchResult{ display: none;}</style>';
         echo '<style type="text/css"> .Article{ display: Block;}</style>';
         header("Location: index.php");

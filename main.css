@@ -10,6 +10,10 @@ h1{
   float: left;
   margin:0;
   display: inline-block;
+  cursor: pointer;
+}
+h1:hover{
+  color: blue;
 }
 h2{
   margin: auto;
@@ -79,6 +83,13 @@ div{
   font-size: 12px;
 }
 .searchContent{
+  text-align: justify;
+  overflow: auto;
+  display:none;
+  width: 590px;
+  font-size: 12px;
+}
+#noResult{
   text-align: justify;
   overflow: auto;
   display:none;

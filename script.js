@@ -1,4 +1,23 @@
-function ShowText(c, index){
+//not finished yet
+function homePage(){
+    var noResult = document.getElementById("noResult");
+    var searchResult = document.getElementsByClassName("searchResult");
+    var Article = document.getElementsByClassName("Article");
+
+    if(noResult || searchResult != null){
+      console.log("not null");
+      noResult.style = "display: 'none'";
+      searchResult.style = "display: 'none'";
+      Article.style = "display: 'block'";
+      location.reload();
+    }
+    else{
+      location.reload();
+      console.log("null");
+    }
+
+}
+function showText(c, index){
   var closed = false;
   var x = document.getElementsByClassName(c);
     for (var i = 0; i < x.length; i++) {
@@ -11,29 +30,11 @@ function ShowText(c, index){
       x[index].style.display ="block";
     }
 }
-/*
-//function for filtering out the irrelevant content, not the final function for search
-function searchFilter(){
-  var input = document.getElementById("searchBar");
-  var filter = input.value.toLowerCase();
-  var nodes = document.getElementsByClassName('content');
-//removes the highlight if the searchbar is empty
-  if(filter == "") {
-    for (i = 0; i < nodes.length; i++) {
-      nodes[i].style = "background-color: #ffffff";
-      nodes[i].style.display = "none";
-    }
-  }
-  else{
-    for (i = 0; i < nodes.length; i++) {
-      if(nodes[i].innerText.toLowerCase().includes(filter)) {
-          nodes[i].style = "background-color: yellow";
-          nodes[i].style.display = "block";
-      }
-      else {
-        nodes[i].style.display = "none";
-      }
-    }
-  }
+/* Will be used later
+function autoPublish(){
+    document.getElementById("headingInput").value = "Yo";
+    document.getElementById("authorInput").value = "YOYO";
+    document.getElementById("bodytextInput").value = "Ey yo yo yo yo hehehehe";
+
 }
 */

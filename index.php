@@ -5,9 +5,9 @@
   <link rel="stylesheet" href="main.css">
   <script src="script.js"></script>
 </head>
-<body>
+<body onload="autoPublish()">
   <div id="header">
-    <h1>Artefakt</h1>
+    <h1 onclick="homePage()">Artefakt</h1>
     <form method = "post">
       <input type="text" id="searchBar" name="searchBar" placeholder="Search.." value=""/>
       <button id="searchButton" type="submit" name="search"><img id="searchImg" src="search.png"></img></button>
@@ -20,11 +20,11 @@
   </div>
   <div id="adder">
     <form method="post">
-      Heading: <input type="text" name="headingInput" id="headingInput" placeholder="Write your heading...">
+      Heading: <input type="text" id="headingInput" name="headingInput"  placeholder="Write your heading...">
         <br>
-      Author: <input type="text" name="authorInput" placeholder="Write your name...">
+      Author: <input type="text" id="authorInput" name="authorInput" placeholder="Write your name...">
         <br>
-      bodytext: <input type ="text" name="bodytextInput" placeholder="Write your bodytext...">
+      bodytext: <input type ="text" id="bodytextInput" name="bodytextInput" placeholder="Write your bodytext...">
         <br>
       <button id="Publish" type="submit" name="publish">Publish</button>
     </form>
