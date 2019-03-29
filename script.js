@@ -1,21 +1,16 @@
-//not finished yet
+//function for going back to the page's original state
 function homePage(){
-    var noResult = document.getElementById("noResult");
-    var searchResult = document.getElementsByClassName("searchResult");
-    var Article = document.getElementsByClassName("Article");
+  var noResult = document.getElementById('noResult');
+  var searchResult = document.getElementsByClassName('searchResult');
+  var Article = document.getElementsByClassName('Article');
 
-    if(noResult || searchResult != null){
-      console.log("not null");
-      noResult.style = "display: 'none'";
-      searchResult.style = "display: 'none'";
-      Article.style = "display: 'block'";
-      location.reload();
-    }
-    else{
-      location.reload();
-      console.log("null");
-    }
-
+  noResult.style.display = "none";
+  for (var i=0;i<searchResult.length;i+=1){
+    searchResult[i].style.display = 'none';
+  }
+  for (var i=0;i<Article.length;i+=1){
+    Article[i].style.display = 'block';
+  }
 }
 function showText(c, index){
   var closed = false;

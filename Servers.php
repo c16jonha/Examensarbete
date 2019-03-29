@@ -7,7 +7,8 @@
     $conn = new PDO("mysql:host=$servername;dbname=test", $username, $password); //new PDO connection to db
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //
+    // profiling init
+    $set_profiling = $conn->prepare( 'SET profiling = 1' );
     $stmt = $conn->prepare('Select * from articles');
     $stmt->execute();
 
@@ -28,6 +29,13 @@
         echo "</div></div>";
         $i++;
       }
+
+      echo "<div id='noResult'>";
+      echo "<h2>No result was found</h2><hr>";
+      echo "<div>";
+      echo "<p>We could not find any matching results to your search</p>";
+      echo "<p>Please try again</p>";
+      echo "</div></div>";
 
       //Inserts the content from the form into the database as an article
       if(isset($_POST['publish'])){
@@ -74,12 +82,6 @@
         }
         else{
           echo '<style type="text/css"> #noResult{ display: block;}</style>';
-          echo "<div id='noResult'>";
-          echo "<h2>No result was found</h2><hr>";
-          echo "<div>";
-          echo "<p>We could not find any matching results to your search</p>";
-          echo "<p>Please try again</p>";
-          echo "</div></div>";
         }
       }
       else{
@@ -88,6 +90,12 @@
         echo '<style type="text/css"> .Article{ display: Block;}</style>';
         header("Location: index.php");
       }
+    }
+
+    while( $row = $show_profiles->fetch_assoc() ) {
+      echo '<pre>';
+      print_r( $row );
+      echo '</pre>';
     }
   }
   catch(PDOException $e){

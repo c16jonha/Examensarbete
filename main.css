@@ -1,19 +1,19 @@
 html{
-  height: 100vh;
+  height: 100%;
 }
 body{
   margin:auto;
   background-color: #F4F4F4;
-  min-height: 100vh;
+  min-height: 100%;
 }
 h1{
   float: left;
   margin:0;
   display: inline-block;
   cursor: pointer;
-}
+  transition: 0.5s;}
 h1:hover{
-  color: blue;
+  color: #A1BDDB;
 }
 h2{
   margin: auto;
