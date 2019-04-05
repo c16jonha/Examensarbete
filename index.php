@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="main.css">
   <script src="script.js"></script>
 </head>
-<body>
+<body onload= "saveTime()">
   <div id="header">
     <h1 onclick="homePage()">Artefakt</h1>
     <form method = "post">
@@ -29,7 +29,7 @@
       <button id="Publish" type="submit" name="publish">Publish</button>
     </form>
   </div>
-  <div id = "footer">
-  </div>
+  <!--<div id = "footer">
+  </div>-->
 </body>
 </html>
