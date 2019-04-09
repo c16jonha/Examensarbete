@@ -18,14 +18,16 @@
           include "Servers.php";
         ?>
   </div>
-  <div id="adder">
+  <div id="publisher">
     <form method="post">
       Heading: <input type="text" id="headingInput" name="headingInput"  placeholder="Write your heading...">
-        <br>
+      <br>
+      Subheading: <input type="text" id="subheadingInput" name="subheadingInput"  placeholder="Write your subheading...">
+      <br>
       Author: <input type="text" id="authorInput" name="authorInput" placeholder="Write your name...">
-        <br>
+      <br>
       bodytext: <input type ="text" id="bodytextInput" name="bodytextInput" placeholder="Write your bodytext...">
-        <br>
+      <br>
       <button id="Publish" type="submit" name="publish">Publish</button>
     </form>
   </div>

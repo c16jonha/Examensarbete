@@ -24,35 +24,4 @@ function showText(c, index){
     if(!closed){
       x[index].style.display ="block";
     }
-}
-/* Will be used later
-function autoPublish(){
-    document.getElementById("headingInput").value = "Yo";
-    document.getElementById("authorInput").value = "YOYO";
-    document.getElementById("bodytextInput").value = "Ey yo yo yo yo hehehehe";
-
-}
-
-function autoSearch(){
-    document.getElementById("headingInput").value = "Yo";
-    document.getElementById("authorInput").value = "YOYO";
-    document.getElementById("bodytextInput").value = "Ey yo yo yo yo hehehehe";
-}
-*/
-
-//function that saves the query response time in localStorage and prints it out in the console
-var TimeString ="";
-function saveTime(){
-  var Times = document.getElementsByClassName('entryTime');
-  for(var i = 0;i < Times.length; i++){
-    var AllTimes;
-    if(localStorage.getItem('Time') != null){
-        AllTimes = localStorage.getItem('Time') + " " + Times[i].innerHTML;
-    } else {
-        AllTimes = Times[i].innerHTML;
-    }
-    localStorage.setItem('Time', AllTimes);
-    TimeString = "Times (ms): " + localStorage.getItem('Time') +",";
   }
-  console.log(TimeString);
-}

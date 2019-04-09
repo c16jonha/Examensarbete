@@ -5,37 +5,9 @@
   $password ="";
   // Create connection
   try {
-    $conn = new LoggedPDO("mysql:host=$servername; dbname=test", $username, $password); //new PDO connection to db
+    $conn = new PDO("mysql:host=$servername; dbname=test", $username, $password); //new PDO connection to db
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // profiling init
-
-    $stmt = $conn->prepare('Select * from articles');
-    $stmt->execute();
-
-    // set the resulting array to associative
-    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-    $articles = $stmt->fetchAll();
-
-    //Loops out every row in the articles table as div
-    $i = 0;
-      foreach ($articles as $article) {
-        echo "<div class='Article'>";
-        echo "<h2 onclick='showText(\"content\",".$i.")'>".$article['heading']."</h2><hr>";
-        echo "<div class='content'>";
-        echo "<p>".$article['author']."</p>";
-        echo "<p>".$article['bodytext']."</p>";
-        echo "<p>".$article['published']."</p><hr>";
-        echo "</div></div>";
-        $i++;
-      }
-      echo "<div id='noResult'>";
-      echo "<h2>No result was found</h2><hr>";
-      echo "<div>";
-      echo "<p>We could not find any matching results to your search</p>";
-      echo "<p>Please try again</p>";
-      echo "</div></div>";
 
       //Inserts the content from the form into the database as an article
       if(isset($_POST['publish'])){
@@ -55,6 +27,34 @@
         }
         else{}
       }
+
+      // profiling init
+      $stmt = $conn->prepare('Select * from articles');
+      $stmt->execute();
+      // set the resulting array to associative
+      $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+      $articles = $stmt->fetchAll();
+
+      //Loops out every row in the articles table as div
+      $i = 0;
+      foreach ($articles as $article) {
+        echo "<div class='Article'>";
+        echo "<h2 onclick='showText(\"content\",".$i.")'>".$article['heading']."</h2><hr>";
+        echo "<div class='content'>";
+        echo "<p>".$article['bodytext']."</p>";
+        echo "<p><b> By: ".$article['author']."</b></p>";
+        echo "<p>".$article['published']."</p><hr>";
+        echo "</div></div>";
+        $i++;
+      }
+      echo "<div id='noResult'>";
+      echo "<h2>No result was found</h2><hr>";
+      echo "<div>";
+      echo "<p>We could not find any matching results to your search</p>";
+      echo "<p>Please try again</p>";
+      echo "</div></div>";
+
     //Search that queries the DB
     if(isset($_POST['search'])){
       if(isset($_POST['searchBar']) != ""){
@@ -86,7 +86,7 @@
         echo '<style type="text/css"> #noResult{ display: none;}</style>';
         echo '<style type="text/css"> .searchResult{ display: none;}</style>';
         echo '<style type="text/css"> .Article{ display: Block;}</style>';
-        
+
       }
     }
   }
@@ -125,15 +125,12 @@
     }
     public function printLog(){
       $totalTime = 0;
-      echo '<table onload="saveTime()" border=1><tr><th>Query</th><th>Time (ms)</th></tr>';
       $i = 1;
       foreach(self::$log as $entry){
         $totalTime += $entry['time'];
-        echo '<tr><td>Query '.$i.'</td><td class="entryTime">'.$entry['time'].'</td></tr>';
+        echo '<p class="entryTime">'.$entry['time'].'</p>';
         $i++;
       }
-      echo '<tr><th>'.count(self::$log).' queries</th><th>Total time: '.$totalTime.'</th></tr>';
-      echo '</table>';
     }
   }
   /*
@@ -160,8 +157,8 @@
     * @param string $function_name
     * @param array $parameters arguments
     */
-    public function __call($function_name, $parameters){
+    /*public function __call($function_name, $parameters){
       return call_user_func_array(array($this->statement, $function_name), $parameters);
-    }
+    }*/
 }
 ?>

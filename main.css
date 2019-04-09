@@ -96,12 +96,11 @@ div{
   width: 590px;
   font-size: 12px;
 }
-#tabellen{
-  text-align: center;
-  width: 500px;
-}
 input{
   margin-bottom: 10px;
+}
+.entryTime{
+  color: #F4F4F4;
 }
 #footer{
   position: absolute;
