@@ -5,7 +5,7 @@
   $password ="";
   // Create connection
   try {
-    $conn = new PDO("mysql:host=$servername; dbname=test", $username, $password); //new PDO connection to db
+    $conn = new LoggedPDO("mysql:host=$servername; dbname=test", $username, $password); //new PDO connection to db
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
@@ -91,7 +91,7 @@
     }
   }
   catch(PDOException $e){
-    echo "Connection failed: " . $e->getMessage();
+    echo "Connection failed: ".$e->getMessage();
   }
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   /**
@@ -157,8 +157,8 @@
     * @param string $function_name
     * @param array $parameters arguments
     */
-    /*public function __call($function_name, $parameters){
+    public function __call($function_name, $parameters){
       return call_user_func_array(array($this->statement, $function_name), $parameters);
-    }*/
+    }
 }
 ?>
