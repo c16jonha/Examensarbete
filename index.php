@@ -17,6 +17,15 @@
         <?php
           include "Servers.php";
         ?>
+        <script>
+          //function that saves the query response time in localStorage and prints it out in the console
+            var TimeString ="<?php echo $log_time; ?>";
+            if(localStorage.getItem('Times')!=null){
+              TimeString += localStorage.getItem('Times');
+            }
+            localStorage.setItem('Times', TimeString);
+            console.log(TimeString);
+        </script>
   </div>
   <div id="publisher">
     <form method="post">
@@ -24,9 +33,9 @@
       <br>
       Subheading: <input type="text" id="subheadingInput" name="subheadingInput"  placeholder="Write your subheading...">
       <br>
-      Author: <input type="text" id="authorInput" name="authorInput" placeholder="Write your name...">
-      <br>
       bodytext: <input type ="text" id="bodytextInput" name="bodytextInput" placeholder="Write your bodytext...">
+      <br>
+      Author: <input type="text" id="authorInput" name="authorInput" placeholder="Write your name...">
       <br>
       <button id="Publish" type="submit" name="publish">Publish</button>
     </form>

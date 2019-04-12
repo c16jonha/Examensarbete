@@ -3,24 +3,28 @@
   $servername = "localhost";
   $username = "root";
   $password ="";
+  $log_time = "";
   // Create connection
   try {
-    $conn = new LoggedPDO("mysql:host=$servername; dbname=test", $username, $password); //new PDO connection to db
+    $time = 0;
+    $conn = new PDO("mysql:host=$servername; dbname=test", $username, $password); //new PDO connection to db
     // set the PDO error mode to exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
       //Inserts the content from the form into the database as an article
       if(isset($_POST['publish'])){
-        if(isset($_POST['headingInput']) && $_POST['authorInput'] && $_POST['bodytextInput'] != null){
+        if(isset($_POST['headingInput']) && $_POST['subheadingInput'] && $_POST['bodytextInput'] && $_POST['authorInput'] != null){
           $heading = $_POST['headingInput'];
-          $author = $_POST['authorInput'];
+          $subheading = $_POST['subheadingInput'];
           $bodytext = $_POST['bodytextInput'];
-          $create = "INSERT INTO articles (heading, author, bodytext)
-          VALUES (:HEADING,:AUTHOR,:BODYTEXT)";
+          $author = $_POST['authorInput'];
+          $create = "INSERT INTO articles (heading, subheading, bodytext, author)
+          VALUES (:HEADING,:SUBHEADING,:BODYTEXT,:AUTHOR)";
           $stmt= $conn->prepare($create);
           $stmt->bindParam(':HEADING', $heading);
-          $stmt->bindParam(':AUTHOR', $author);
+          $stmt->bindParam(':SUBHEADING', $subheading);
           $stmt->bindParam(':BODYTEXT', $bodytext);
+          $stmt->bindParam(':AUTHOR', $author);
           $stmt->execute();
           //Header that resets the parameters for POST
           header("Location: index.php");
@@ -30,21 +34,25 @@
 
       // profiling init
       $stmt = $conn->prepare('Select * from articles');
+      $start = microtime(true);
       $stmt->execute();
       // set the resulting array to associative
       $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
       $articles = $stmt->fetchAll();
+      $diff = microtime(true) - $start;
+      $time = round($diff * 1000, 3);
+      $log_time = $time .", ";
 
       //Loops out every row in the articles table as div
       $i = 0;
       foreach ($articles as $article) {
         echo "<div class='Article'>";
-        echo "<h2 onclick='showText(\"content\",".$i.")'>".$article['heading']."</h2><hr>";
+        echo "<h2 onclick='showText(\"content\",".$i.")'>".$article['heading']."</h2>";
+        echo "<h3 onclick='showText(\"content\",".$i.")'>".$article['subheading']."</h3><hr>";
         echo "<div class='content'>";
         echo "<p>".$article['bodytext']."</p>";
         echo "<p><b> By: ".$article['author']."</b></p>";
-        echo "<p>".$article['published']."</p><hr>";
+        echo "<p>".$article['published']."</p>";
         echo "</div></div>";
         $i++;
       }
@@ -61,18 +69,23 @@
         echo '<style type="text/css"> #noResult{ display: none;}</style>';
         echo '<style type="text/css"> .Article{ display: none;}</style>';
         $search = $_POST['searchBar'];
-        $query = "SELECT * FROM articles WHERE heading LIKE '%".$search."%' OR author LIKE '%".$search."%' Or bodytext LIKE '%".$search."%' Or published LIKE '%".$search."%'";
+        $query = "SELECT * FROM articles WHERE heading LIKE '%".$search."%' OR subheading LIKE '%".$search."%' OR author LIKE '%".$search."%' Or bodytext LIKE '%".$search."%' Or published LIKE '%".$search."%'";
         $stmt= $conn->prepare($query);
+        $start = microtime(true);
         $stmt->execute();
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        $diff = microtime(true) - $start;
+        $time = round($diff * 1000, 3);
+        $log_time .= "".$time.", ";
         if($results != null){
         $i = 0;
           foreach ($results as $result) {
             echo "<div class='searchResult'>";
-            echo "<h2 onclick='showText(\"searchContent\",".$i.")'>".$result['heading']."</h2><hr>";
+            echo "<h2 onclick='showText(\"searchContent\",".$i.")'>".$result['heading']."</h2>";
+            echo "<h3 onclick='showText(\"searchContent\",".$i.")'>".$result['subheading']."</h3><hr>";
             echo "<div class='searchContent'>";
-            echo "<p>".$result['author']."</p>";
             echo "<p>".$result['bodytext']."</p>";
+            echo "<p><b> By: ".$result['author']."</b></p>";
             echo "<p>".$result['published']."</p><hr>";
             echo "</div></div>";
             $i++;
@@ -86,79 +99,11 @@
         echo '<style type="text/css"> #noResult{ display: none;}</style>';
         echo '<style type="text/css"> .searchResult{ display: none;}</style>';
         echo '<style type="text/css"> .Article{ display: Block;}</style>';
-
       }
     }
+    //echo 'Query Response times(ms): '.$log_time.'<br>';
   }
   catch(PDOException $e){
     echo "Connection failed: ".$e->getMessage();
   }
-/*-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-  /**
-  * Extends PDO and logs all queries that are executed and how long
-  * they take, including queries issued via prepared statements
-  */
-  class LoggedPDO extends PDO{
-    public static $log = array();
-
-    public function __construct($servername, $username, $password ) {
-      parent::__construct($servername, $username, $password);
-    }
-    /**
-    * Print out the log when we're destructed. I'm assuming this will
-    * be at the end of the page. If not you might want to remove this
-    * destructor and manually call LoggedPDO::printLog();
-    */
-    public function __destruct(){
-      self::printLog();
-    }
-    public function query($query){
-      $start = microtime(true);
-      $result = parent::query($query);
-      $time = microtime(true) - $start;
-      LoggedPDO::$log[] = array('time'=>round($time * 1000, 3));
-      return $result;
-    }
-    /*@return LoggedPDOStatement*/
-    public function prepare($query, $options = NULL){
-      return new LoggedPDOStatement(parent::prepare($query, $options = array()));
-    }
-    public function printLog(){
-      $totalTime = 0;
-      $i = 1;
-      foreach(self::$log as $entry){
-        $totalTime += $entry['time'];
-        echo '<p class="entryTime">'.$entry['time'].'</p>';
-        $i++;
-      }
-    }
-  }
-  /*
-  * PDOStatement decorator that logs when a PDOStatement is
-  * executed, and the time it took to run
-  * @see LoggedPDO
-  */
-  class LoggedPDOStatement {
-    /** * The PDOStatement we decorate*/
-    private $statement;
-    public function __construct(PDOStatement $statement){
-      $this->statement = $statement;
-    }
-    /*** When execute is called record the time it takes and then log the query @return PDO result set*/
-    public function execute(){
-      $start = microtime(true);
-      $result = $this->statement->execute();
-      $time = microtime(true) - $start;
-      LoggedPDO::$log[] = array('time'=>round($time * 1000, 3));
-      return $result;
-    }
-    /*
-    * Other than execute pass all other calls to the PDOStatement object
-    * @param string $function_name
-    * @param array $parameters arguments
-    */
-    public function __call($function_name, $parameters){
-      return call_user_func_array(array($this->statement, $function_name), $parameters);
-    }
-}
 ?>

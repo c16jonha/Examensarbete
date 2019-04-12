@@ -19,6 +19,10 @@ h2{
   margin: auto;
   cursor: pointer;
 }
+h3{
+  margin: auto;
+  cursor: pointer;
+}
 #header{
   height: 80px;
   width: 100%;
@@ -53,7 +57,7 @@ h2{
   cursor: pointer;
 }
 #container{
-  width: 750px;
+  width: 850px;
   height: auto;
   margin:auto;
   border: 1px solid black;

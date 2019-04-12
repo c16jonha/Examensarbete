@@ -11,6 +11,7 @@ function homePage(){
   for (var i=0;i<Article.length;i+=1){
     Article[i].style.display = 'block';
   }
+  document.getElementById('searchBar').value = "";
 }
 function showText(c, index){
   var closed = false;

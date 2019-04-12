@@ -29,43 +29,39 @@
     function generateSearch(){
         var Search = "";
         //randomizer for determining the type of word
-        var rand = Math.floor(Math.random()*6);
+        var rand = (localStorage.getItem('rand') != null) ? JSON.parse(localStorage.getItem('rand')):0;
         if(rand == 0){
             Search = Grammar.generateRandomNoun();
+            rand++;
+            localStorage.setItem('rand',rand);
         }
         else if(rand == 1){
             Search = Grammar.generateRandomAdjective();
+            rand++;
+            localStorage.setItem('rand',rand);
         }
         else if(rand == 2){
             Search = Grammar.generateRandomVerb();
+            rand++;
+            localStorage.setItem('rand',rand);
         }
         else if(rand == 3){
             Search = Grammar.generateRandomAdverb();
+            rand++;
+            localStorage.setItem('rand',rand);
         }
         else if(rand == 4){
             Search = Grammar.generateRandomDeterminer();
+            rand++;
+            localStorage.setItem('rand',rand);
         }
         else if(rand == 5){
             Search = Grammar.generateRandomConjunction();
+            rand=0
+            localStorage.setItem('rand',rand);
         }
         return Search;
     }
-    //function that saves the query response time in localStorage and prints it out in the console
-    var TimeString ="";
-    function saveTime(){
-        var Times = document.getElementsByClassName('entryTime');
-        for(var i = 0;i<Times.length; i++){
-            var AllTimes;
-            if(localStorage.getItem('Time') != null){
-                AllTimes = localStorage.getItem('Time') + " " + Times[i].innerHTML +",";
-            } else {
-                AllTimes = Times[i].innerHTML;
-            }
-            localStorage.setItem('Time', AllTimes);
-            TimeString = "Times (ms): " + localStorage.getItem('Time');
-        }
-        console.log(TimeString);
-   }
    //function that automatically searches for articles for certain number of times
    function autoSearch(){
        var j = (localStorage.getItem('j') !=null) ? JSON.parse(localStorage.getItem('j')):0;
@@ -73,11 +69,10 @@
        var searchbutton = document.getElementById("searchButton");
        searchword.value = generateSearch();
 
-        if(j<50){
+        if(j<10){
           j++;
           localStorage.setItem('j', j);
           searchbutton.click();
-          saveTime();
         }
        else{
            console.log("stopped at search " + j);
