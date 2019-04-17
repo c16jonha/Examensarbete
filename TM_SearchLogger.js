@@ -29,7 +29,7 @@
     function generateSearch(){
         var Search = "";
         //randomizer for determining the type of word
-        var rand = (localStorage.getItem('rand') != null) ? JSON.parse(localStorage.getItem('rand')):0;
+        var rand = (localStorage.getItem('rand') != null) ? JSON.parse(localStorage.getItem('rand')):1;
         if(rand == 0){
             Search = Grammar.generateRandomNoun();
             rand++;
@@ -64,11 +64,11 @@
     }
    //function that automatically searches for articles for certain number of times
    function autoSearch(){
-       var interval = setInterval(function() {
        var j = (localStorage.getItem('j') !=null) ? JSON.parse(localStorage.getItem('j')):0;
        var searchword = document.getElementById("searchBar");
        var searchbutton = document.getElementById("searchButton");
        searchword.value = generateSearch();
+       var interval = setInterval(function() {
         if(j<200){
           j++;
           localStorage.setItem('j', j);
