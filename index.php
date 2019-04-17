@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="main.css">
@@ -19,7 +19,7 @@
         ?>
         <script>
           //function that saves the query response time in localStorage and prints it out in the console
-            var TimeString ="<?php echo $log_time; ?>";
+            var TimeString = "<?php echo $log_time;?>";
             if(localStorage.getItem('Times')!=null){
               TimeString += localStorage.getItem('Times');
             }

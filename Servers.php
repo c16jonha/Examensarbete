@@ -31,7 +31,6 @@
         }
         else{}
       }
-
       // profiling init
       $stmt = $conn->prepare('Select * from articles');
       $start = microtime(true);
@@ -41,7 +40,7 @@
       $articles = $stmt->fetchAll();
       $diff = microtime(true) - $start;
       $time = round($diff * 1000, 3);
-      $log_time = $time .", ";
+      $log_time ='{\"time\":'.$time.'},';
 
       //Loops out every row in the articles table as div
       $i = 0;
@@ -76,7 +75,7 @@
         $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         $diff = microtime(true) - $start;
         $time = round($diff * 1000, 3);
-        $log_time .= "".$time.", ";
+        $log_time .= '{\"time\":'.$time.'},';
         if($results != null){
         $i = 0;
           foreach ($results as $result) {

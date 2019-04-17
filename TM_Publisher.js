@@ -145,7 +145,7 @@
      bodyInput.value = generateBodyText();
 
      //Creates as many articles as the if-statements allows
-     if(i<30){
+     if(i<200){
          i++;
          localStorage.setItem('i',i);
          publishButton.click();

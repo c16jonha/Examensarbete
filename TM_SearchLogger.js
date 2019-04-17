@@ -64,12 +64,12 @@
     }
    //function that automatically searches for articles for certain number of times
    function autoSearch(){
+       var interval = setInterval(function() {
        var j = (localStorage.getItem('j') !=null) ? JSON.parse(localStorage.getItem('j')):0;
        var searchword = document.getElementById("searchBar");
        var searchbutton = document.getElementById("searchButton");
        searchword.value = generateSearch();
-
-        if(j<10){
+        if(j<200){
           j++;
           localStorage.setItem('j', j);
           searchbutton.click();
@@ -77,5 +77,6 @@
        else{
            console.log("stopped at search " + j);
        }
+      }, 500);
 }
 autoSearch();
