@@ -1,0 +1,122 @@
+html{
+  height: 100%;
+}
+body{
+  margin:auto;
+  background-color: #F4F4F4;
+  min-height: 100%;
+}
+h1{
+  float: left;
+  margin:0;
+  display: inline-block;
+  cursor: pointer;
+  transition: 0.5s;}
+h1:hover{
+  color: #A1BDDB;
+}
+h2{
+  margin: auto;
+  cursor: pointer;
+}
+h3{
+  margin: auto;
+  cursor: pointer;
+}
+#header{
+  height: 80px;
+  width: 100%;
+  color: White;
+  background-color: #1abc9c;
+  border:none;
+  margin:0;
+  font-size: 24px;
+  box-shadow: 0px 4px 2px -2px gray;
+  margin-bottom: 10px;
+}
+#searchBar{
+  position:relative;
+  float: left;
+  border: 1px solid grey;
+  height: 20px;
+  width: 200px;
+  background: #f1f1f1;
+  margin-top: 30px;
+  margin-left: 10px;
+}
+/* Style the submit button */
+#searchButton{
+  position: relative;
+  float: left;
+  width: 30px;
+  height: 24px;;
+  color: white;
+  border: 1px solid grey;
+  border-left: none;
+  margin-top: 30px;
+  cursor: pointer;
+}
+#container{
+  width: 850px;
+  height: auto;
+  margin:auto;
+  border: 1px solid black;
+}
+div{
+  width: 650px;
+  margin:auto;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 2px -2px gray;
+}
+.Article{
+  width: 600px;
+}
+.searchResult{
+  width: 600px;
+}
+.content{
+  text-align: justify;
+  overflow: auto;
+  display:none;
+  width: 590px;
+  font-size: 12px;
+}
+.searchContent{
+  text-align: justify;
+  overflow: auto;
+  display:none;
+  width: 590px;
+  font-size: 12px;
+}
+#noResult{
+  text-align: justify;
+  overflow: auto;
+  display:none;
+  width: 590px;
+  font-size: 12px;
+}
+input{
+  margin-bottom: 10px;
+}
+.entryTime{
+  color: #F4F4F4;
+}
+#footer{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  color: white;
+  background-color: #1abc9c;
+  border:none;
+  height: 80px;
+  margin:0;
+}
+::selection{
+  background: #A1BDDB;
+  color: #fff;
+}
