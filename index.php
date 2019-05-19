@@ -16,6 +16,8 @@
   <div id = "container">
         <?php
           include "Servers.php";
+          //include "Memcache.php";
+          //include "Redis.php";
         ?>
         <script>
           //function that saves the query response time in localStorage and prints it out in the console
@@ -38,6 +40,7 @@
       Author: <input type="text" id="authorInput" name="authorInput" placeholder="Write your name...">
       <br>
       <button id="Publish" type="submit" name="publish">Publish</button>
+      <button id="Delete" type="submit" name="delete">DELETE</button>
     </form>
   </div>
   <!--<div id = "footer">

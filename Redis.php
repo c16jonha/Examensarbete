@@ -6,6 +6,9 @@
   $log_time = "";
   // Create connection
   try {
+    $redis = new Redis();
+    $redis->connect("localhost",6379);
+
     $time = 0;
     $conn = new PDO("mysql:host=$servername; dbname=main", $username, $password); //new PDO connection to db
     // set the PDO error mode to exception
@@ -72,7 +75,6 @@
       echo "<div class='content'>";
       echo "<p>".$article['bodytext']."</p>";
       echo "<p>Published by: ".$article['Name']." on ".$article['published']."</p>";
-      echo "<p> ID: ".$article['ID']."</p>";
       echo "</div></div>";
       $i++;
     }
@@ -90,29 +92,51 @@
         echo '<style type="text/css"> #noResult{ display: none;}</style>';
         echo '<style type="text/css"> .Article{ display: none;}</style>';
         $search = $_POST['searchBar'];
-        $query = "SELECT heading, subheading, bodytext, published, Name FROM articles INNER JOIN author on articles.ID = author.ID WHERE heading LIKE '%".$search."%' OR subheading LIKE '%".$search."%' Or bodytext LIKE '%".$search."%' Or published LIKE '%".$search."%' Or Name LIKE '%".$search."%'";
-        $stmt= $conn->prepare($query);
-        $start = microtime(true);
-        $stmt->execute();
-        $results = $stmt->fetchAll();
-        $diff = microtime(true) - $start;
-        $time = round($diff * 1000, 3);
-        $log_time .= '{\"time\":'.$time.'},';
-        if($results != null){
+        if($redis->EXISTS($search)){
+          $start = microtime(true);
+          $results = $redis->get($search);
+          $diff = microtime(true) - $start;
+          $time = round($diff * 1000, 3);
+          $log_time .= '{\"time\":'.$time.'},';
+          $results = json_decode($results, true);
           $i = 0;
-          foreach ($results as $result) {
-            echo "<div class='searchResult'>";
-            echo "<h2 onclick='showText(\"searchContent\",".$i.")'>".$result['heading']."</h2>";
-            echo "<h3 onclick='showText(\"searchContent\",".$i.")'>".$result['subheading']."</h3><hr>";
-            echo "<div class='searchContent'>";
-            echo "<p>".$result['bodytext']."</p>";
-            echo "<p>Published by: ".$result['Name']." on ".$result['published']."</p>";
-            echo "</div></div>";
-            $i++;
+          foreach ($results as $result){
+              echo "<div class='searchResult'>";
+              echo "<h2 onclick='showText(\"searchContent\",".$i.")'>".$result['heading']."</h2>";
+              echo "<h3 onclick='showText(\"searchContent\",".$i.")'>".$result['subheading']."</h3><hr>";
+              echo "<div class='searchContent'>";
+              echo "<p>".$result['bodytext']."</p>";
+              echo "<p>Published by: ".$result['Name']." on ".$result['published']."</p>";
+              echo "</div></div>";
+              $i++;
           }
         }
         else{
-          echo '<style type="text/css"> #noResult{ display: block;}</style>';
+          $query = "SELECT heading, subheading, bodytext, published, Name FROM articles INNER JOIN author on articles.ID = author.ID WHERE heading LIKE '%".$search."%' OR subheading LIKE '%".$search."%' Or bodytext LIKE '%".$search."%' Or published LIKE '%".$search."%' Or Name LIKE '%".$search."%'";
+          $stmt= $conn->prepare($query);
+          $start = microtime(true);
+          $stmt->execute();
+          $results = $stmt->fetchAll();
+          $diff = microtime(true) - $start;
+          $time = round($diff * 1000, 3);
+          $log_time .= '{\"time\":'.$time.'},';
+          if($results != null){
+            $redis->set($search, json_encode($results));
+            $i = 0;
+            foreach ($results as $result) {
+              echo "<div class='searchResult'>";
+              echo "<h2 onclick='showText(\"searchContent\",".$i.")'>".$result['heading']."</h2>";
+              echo "<h3 onclick='showText(\"searchContent\",".$i.")'>".$result['subheading']."</h3><hr>";
+              echo "<div class='searchContent'>";
+              echo "<p>".$result['bodytext']."</p>";
+              echo "<p>Published by: ".$result['Name']." on ".$result['published']."</p>";
+              echo "</div></div>";
+              $i++;
+            }
+          }
+          else{
+            echo '<style type="text/css"> #noResult{ display: block;}</style>';
+          }
         }
       }
       else{
